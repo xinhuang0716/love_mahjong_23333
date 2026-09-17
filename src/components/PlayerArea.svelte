@@ -22,7 +22,7 @@
   {#if index === 0}
     <div class="hand" aria-label="你的手牌">
       {#each player.hand as tile, handIndex}
-        <Tile {tile} interactive disabled={!canDiscard} selected={selected === handIndex} drawn={canDiscard && tile === drawn && handIndex === player.hand.lastIndexOf(tile)} onselect={() => onTileSelect?.(handIndex)} />
+        <Tile {tile} interactive disabled={!canDiscard} selected={selected === handIndex} drawn={canDiscard && drawn !== null && handIndex === player.hand.length - 1} onselect={() => onTileSelect?.(handIndex)} />
       {/each}
     </div>
   {:else}
@@ -31,11 +31,19 @@
     </div>
   {/if}
   {#if player.melds.length}
-    <div class="melds" aria-label="牌組">
+    <div class="melds" aria-label="副露">
+      <span class="zone-label">副露</span>
       {#each player.melds as meld}
-        <div class="meld" title={meld.type}>{#each meld.tiles as tile}<Tile {tile} size="mini" hidden={meld.type === '暗槓' && index !== 0 && !ended} />{/each}</div>
+        <div class="meld" aria-label={meld.type}>
+          <div class="meld-tiles" style={`--meld-count: ${meld.tiles.length}`}>{#each meld.tiles as tile}<Tile {tile} size="mini" hidden={meld.type === '暗槓' && index !== 0 && !ended} />{/each}</div>
+        </div>
       {/each}
     </div>
   {/if}
-  <div class="river" aria-label="牌河">{#each player.river as tile}<Tile {tile} size="mini" />{/each}</div>
+  {#if player.river.length}
+    <div class="river-zone" aria-label="棄牌">
+      <span class="zone-label">棄牌</span>
+      <div class="river">{#each player.river as tile}<Tile {tile} size="mini" />{/each}</div>
+    </div>
+  {/if}
 </section>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tileFace, tileLabel } from '../lib/tiles';
+  import { tileFace, tileImages, tileLabel } from '../lib/tiles';
 
   export let tile: number;
   export let size: 'hand' | 'mini' = 'hand';
@@ -10,14 +10,14 @@
   export let interactive = false;
   export let onselect: (() => void) | undefined = undefined;
 
-  $: face = tileFace(tile);
+  $: faceClass = tileFace(tile);
 </script>
 
 {#if hidden}
   <span class="tile tile-back {size}" aria-hidden="true"><span class="back-mark"></span></span>
 {:else if interactive}
   <button
-    class="tile {face.kind} {size}"
+    class="tile {faceClass} {size}"
     class:selected
     class:drawn
     {disabled}
@@ -25,12 +25,10 @@
     aria-pressed={selected}
     on:click={onselect}
   >
-    <strong>{face.value}</strong>
-    {#if face.suit}<small>{face.suit}</small>{/if}
+    <img class="tile-face" src={tileImages[tile]} alt="" width="300" height="420" draggable="false" />
   </button>
 {:else}
-  <span class="tile {face.kind} {size}" class:drawn aria-label={tileLabel(tile)}>
-    <strong>{face.value}</strong>
-    {#if face.suit}<small>{face.suit}</small>{/if}
+  <span class="tile {faceClass} {size}" class:drawn aria-label={tileLabel(tile)}>
+    <img class="tile-face" src={tileImages[tile]} alt="" width="300" height="420" draggable="false" />
   </span>
 {/if}

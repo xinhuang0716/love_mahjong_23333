@@ -1,8 +1,9 @@
-export type Phase = 'draw' | 'discard' | 'claim' | 'thinking' | 'waiting' | 'end';
+export type Phase =
+  "draw" | "discard" | "claim" | "thinking" | "waiting" | "end";
 
 export interface Meld {
   tiles: number[];
-  type: '吃' | '碰' | '明槓' | '暗槓';
+  type: "吃" | "碰" | "明槓" | "暗槓";
 }
 
 export interface Player {
@@ -13,13 +14,16 @@ export interface Player {
 
 export interface ClaimOffer {
   player: number;
-  type: '吃' | '碰' | '明槓' | '胡';
+  type: "吃" | "碰" | "明槓" | "胡";
   take: number[];
   rank: number;
   distance: number;
 }
 
-export interface LastDiscard { player: number; tile: number; }
+export interface LastDiscard {
+  player: number;
+  tile: number;
+}
 
 export interface GameState {
   wall: number[];
@@ -35,5 +39,3 @@ export interface GameState {
   result: string;
   winner: number | null;
 }
-
-export interface Stats { games: number; wins: number; }
